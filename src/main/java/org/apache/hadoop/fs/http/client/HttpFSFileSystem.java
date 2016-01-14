@@ -54,6 +54,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -84,6 +87,7 @@ import java.util.Map;
 @InterfaceAudience.Private
 public class HttpFSFileSystem extends FileSystem
   implements DelegationTokenRenewer.Renewable {
+	private static Logger DEBUG_LOG = LoggerFactory.getLogger(HttpFSFileSystem.class);
 
   public static final String SERVICE_NAME = HttpFSUtils.SERVICE_NAME;
 
@@ -683,6 +687,7 @@ public class HttpFSFileSystem extends FileSystem
     params.put(OP_PARAM, Operation.LISTSTATUS.toString());
     HttpURLConnection conn = getConnection(Operation.LISTSTATUS.getMethod(),
                                            params, f, true);
+    DEBUG_LOG.debug("进入此处开始List_status{}", conn.getURL().toString());
     HttpExceptionUtils.validateResponse(conn, HttpURLConnection.HTTP_OK);
     JSONObject json = (JSONObject) HttpFSUtils.jsonParse(conn);
    // Log.debug("开始 listFile{}", conn.getURL().to);
