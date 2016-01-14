@@ -431,6 +431,9 @@ public class HttpFSFileSystem extends FileSystem
     params.put(OP_PARAM, Operation.OPEN.toString());
     HttpURLConnection conn = getConnection(Operation.OPEN.getMethod(), params,
                                            f, true);
+    /**
+     * 难道应答客户端的是http协议？
+     */
     HttpExceptionUtils.validateResponse(conn, HttpURLConnection.HTTP_OK);
     return new FSDataInputStream(
       new HttpFSDataInputStream(conn.getInputStream(), bufferSize));
